@@ -23,8 +23,9 @@ def welcome():
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
-    #print(request.data)
+    print(request.data)
     data = json.loads(request.data)
+    
     
     if data['passphrase'] != config.WEBHOOK_PASSPHRASE:
         return {
@@ -34,7 +35,8 @@ def webhook():
 
     side = data['strategy']['order_action'].upper()
     quantity = data['strategy']['order_contracts']
-    order_response = order(side, quantity, "DOGEUSD")
+    pair = data['ticker'] #BTCUSDT
+    order_response = order(side, quantity, pair)
 
     if order_response:
         return {
