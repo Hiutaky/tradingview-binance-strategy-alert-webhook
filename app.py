@@ -26,11 +26,14 @@ def webhook():
     print(request.data)
     data = json.loads(request.data)
     
-    return {
+    return_data = [
         "side": data['strategy']['order_action'].upper(),
-        "quantity": data['strategy']['order_action'],
+        "quantity": data['strategy']['order_contracts'],
         "pair": data['ticker']
-    }
+    ]
+    logging.basicConfig(filename='myapp.log', level=logging.INFO)
+    
+    logging.info(return_data)
 
     if data['passphrase'] != config.WEBHOOK_PASSPHRASE:
         return {
